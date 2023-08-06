@@ -1,3 +1,10 @@
+## Update 2023
+TODO: Update db string
+TODO: Update node packages, etc
+TODO: ensure recording capacity
+TODO: update ability to past in words from clipboard
+TODO: update ability to include accent marks in keyboard
+TODO: test with Cheyenne
 # V0.1.0 - Initial Public Release
 
 ## Minimum Viable Product
