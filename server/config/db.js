@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const CONNECTION_URL = process.env.CONNECTION_URL
+const CONNECTION_URL = process.env.COSMOS_DB_CONNECTION_STRING
 console.log('connection url', CONNECTION_URL)
 // getting this error: DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
 const InitiateMongoServer = async () => {
