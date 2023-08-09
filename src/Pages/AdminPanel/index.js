@@ -11,7 +11,10 @@ import Requests from './Requests'
 import Signup from './Signup'
 import Users from './Users'
 import Words from './Words'
-
+// TODO: HIDE USER AND MESSAGES PATHWAY
+// TODO: FIX FILTERS
+// TODO: REDESIGN Word entry Page
+// TODO: fix recording glitches
 const AdminRoute = ({ path, children }) => {
   const { roles } = useAPI()
   return (
