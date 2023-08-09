@@ -1,0 +1,170 @@
+[
+  [
+    {
+      "key": "q",
+      "char": "ɂ",
+      "shift": "ɂ"
+    },
+    {
+      "key": "w",
+      "char": "w",
+      "shift": "W"
+    },
+    {
+      "key": "e",
+      "char": "e",
+      "shift": "E",
+      "accent": "é",
+      "accentShift": "É"
+    },
+    {
+      "key": "r",
+      "char": "r",
+      "shift": "R"
+    },
+    {
+      "key": "t",
+      "char": "t",
+      "shift": "T"
+    },
+    {
+      "key": "y",
+      "char": "y",
+      "shift": "Y"
+    },
+    {
+      "key": "u",
+      "char": "u",
+      "shift": "U",
+      "accent": "ú",
+      "accentShift": "Ú"
+    },
+    {
+      "key": "i",
+      "char": "i",
+      "shift": "I",
+      "accent": "í",
+      "accentShift": "Í"
+    },
+    {
+      "key": "o",
+      "char": "α",
+      "shift": "α",
+      "accent": "ά",
+      "accentShift": "ά"
+    },
+    {
+      "key": "p",
+      "char": "p",
+      "shift": "P"
+    }
+  ],
+  [
+    {
+      "key": "a",
+      "char": "a",
+      "shift": "A",
+      "accent": "á",
+      "accentShift": "Á"
+    },
+    {
+      "key": "s",
+      "char": "s",
+      "shift": "S"
+    },
+    {
+      "key": "d",
+      "char": "d",
+      "shift": "D"
+    },
+    {
+      "key": "f",
+      "char": "ą",
+      "shift": "Ą",
+      "accent": "ą́",
+      "accentShift": "Ą́"
+    },
+    {
+      "key": "g",
+      "char": "g",
+      "shift": "G"
+    },
+    {
+      "key": "h",
+      "char": "h",
+      "shift": "H"
+    },
+    {
+      "key": "j",
+      "char": "ę",
+      "shift": "Ę",
+      "accent": "ę́",
+      "accentShift": "Ę́"
+    },
+    {
+      "key": "k",
+      "char": "k",
+      "shift": "K"
+    },
+    {
+      "key": "l",
+      "char": "į",
+      "shift": "Į",
+      "accent": "į́",
+      "accentShift": "Į́"
+    }
+  ],
+  [
+    {
+      "key": "SHIFT",
+      "char": "SHIFT"
+    },
+    {
+      "key": "z",
+      "char": "ɛ",
+      "shift": "Ɛ",
+      "accent": "έ"
+    },
+    {
+      "key": "x",
+      "char": "ʰ",
+      "shift": "ʰ"
+    },
+    {
+      "key": "c",
+      "char": "č",
+      "shift": "Č"
+    },
+    {
+      "key": "v",
+      "char": "ų",
+      "shift": "Ų"
+    },
+    {
+      "key": "b",
+      "char": "b",
+      "shift": "B"
+    },
+    {
+      "key": "n",
+      "char": "n",
+      "shift": "N"
+    },
+    {
+      "key": "m",
+      "char": "m",
+      "shift": "M"
+    },
+    {
+      "key": "BACKSPACE",
+      "char": "BACKSPACE"
+    }
+  ],
+  [
+    {
+      "key": "SPACE",
+      "char": " ",
+      "shift": " "
+    }
+  ]
+]

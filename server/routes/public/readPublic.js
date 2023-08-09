@@ -2,7 +2,7 @@ const path = require('path')
 
 const fs = require('fs')
 
-const filePath = path.resolve(__dirname, '../../../app/build', 'index.html')
+const filePath = path.resolve(__dirname, '../../../build', 'index.html')
 
 const readPublic = () => {
   return new Promise((resolve, reject) => {

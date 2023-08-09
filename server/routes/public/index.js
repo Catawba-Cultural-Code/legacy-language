@@ -119,6 +119,6 @@ router.get('/', async (req, res) => {
   res.send(html)
 })
 // Must come after other routes
-router.use(express.static(path.resolve(__dirname, '../../../app/build')))
+router.use(express.static(path.resolve(__dirname, '../../../build')))
 
 module.exports = router
