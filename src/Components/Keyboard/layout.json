@@ -116,7 +116,7 @@
   ],
   [
     {
-      "key": "SHIFT",
+      "key": "shift",
       "char": "SHIFT"
     },
     {
@@ -156,13 +156,13 @@
       "shift": "M"
     },
     {
-      "key": "BACKSPACE",
+      "key": "backspace",
       "char": "BACKSPACE"
     }
   ],
   [
     {
-      "key": "SPACE",
+      "key": " ",
       "char": " ",
       "shift": " "
     }

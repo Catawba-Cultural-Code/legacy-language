@@ -43,13 +43,37 @@ export const KeyboardComponent = (props) => {
     setText = (string) => console.log('no setText fn.string: ', string),
   } = props
   const [isShifted, setIsShifted] = useState(false)
+  const [isAlted, setIsAlted] = useState(false)
+  const [currentKey, setCurrentKey] = useState(null)
   const handleKeyDown = (e) => {
     // TODO: Prevent BACKSPACE navigation
-
     e.preventDefault()
-    console.log(e.key)
+    console.log(`key down ${e.key}`)
+    switch (e.key.toLowerCase()) {
+      case 'shift':
+        setIsShifted(true)
+        break
+      case 'alt':
+        setIsAlted(true)
+        break
+      default:
+        setCurrentKey(e.key.toLowerCase())
+    }
   }
-  const handleKeyUp = (e) => {}
+  const handleKeyUp = (e) => {
+    e.preventDefault()
+    console.log(`key up ${e.key}`)
+    switch (e.key.toLowerCase()) {
+      case 'shift':
+        setIsShifted(false)
+        break
+      case 'alt':
+        setIsAlted(false)
+        break
+      default:
+        setCurrentKey(null)
+    }
+  }
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('keyup', handleKeyUp)
@@ -70,6 +94,9 @@ export const KeyboardComponent = (props) => {
               setIsShifted={setIsShifted}
               isShifted={isShifted}
               setString={setText}
+              isAlted={isAlted}
+              setIsAlted={setIsAlted}
+              currentKey={currentKey}
             />
           )
         })

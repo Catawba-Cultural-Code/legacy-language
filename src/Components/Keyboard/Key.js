@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Paper, Text } from '../Surfaces'
 import { BackspaceIcon, ShiftIcon } from '../Surfaces/Icon'
 import { useState } from 'react'
@@ -12,7 +12,9 @@ const StyledPaper = styled(Paper)`
   place-items: center;
   border-radius: 5px;
   transition: all 0.01ds;
-
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
   box-shadow: ${({ clicked = false }) =>
     clicked ? `1px 1px 1px #555` : `3px 3px #555`};
   border: solid 2px ${({ clicked = false, theme }) =>
@@ -37,66 +39,74 @@ const KeyText = styled(Text)`
     }
   }
 `
-const isThisKey = (e, thisKey) => {
-  let key = e.key
-  if (key === 'Backspace') key = 'BACKSPACE'
-  if (key === 'Shift') key = 'SHIFT'
-  if (e.code === 'Space') key = 'SPACE'
-  return key === thisKey
-}
-export const Key = ({ data, isShifted = false, setIsShifted, setString }) => {
-  const [isClicked, setIsClicked] = useState(false)
-  const handleClick = (char) => {
-    if (char === 'BACKSPACE') {
-      setString((string) => string.slice(0, -1))
-    } else {
-      setString((str) => str + char)
-    }
-  }
 
-  const handleMouseDown = () => {
-    setIsClicked(true)
-    if (data.key === 'SHIFT') {
-      setIsShifted(true)
-    } else if (data.key === 'SPACE') {
-      handleClick(' ')
-    } else {
-      if (isShifted && data.shift !== undefined) {
-        handleClick(data.shift)
-      } else {
-        handleClick(data.char)
+export const Key = ({
+  currentKey,
+  data,
+  isShifted = false,
+  setIsShifted,
+  setString,
+}) => {
+  const [isClicked, setIsClicked] = useState(false)
+  // TODO: create alt button
+  // TODO: expand key function to include cases for when alt is working
+  const getChar = () => {
+    if (isShifted) {
+      return data.shift
+    }
+    return data.char
+  }
+  useEffect(() => {
+    if (data.key == 'shift') {
+      setIsClicked(isShifted)
+    }
+  }, [isShifted])
+  useEffect(() => {
+    console.log(currentKey)
+    if (currentKey == null) {
+      setIsClicked(false)
+      return
+    }
+    if (currentKey === data.key) {
+      setIsClicked(true)
+      switch (data.key) {
+        case 'backspace':
+          setString((str) => str.slice(0, -1))
+          break
+        case ' ':
+          setString((str) => str + ' ')
+          break
+        default:
+          console.log(getChar())
+          setString((str) => str + getChar())
       }
+      return
+    }
+  }, [currentKey])
+  const handleMouseDown = () => {
+    switch (data.key) {
+      case 'shift':
+        console.log(isShifted)
+        setIsShifted((bool) => !bool)
+        break
+      case 'backspace':
+        setIsClicked(true)
+        setString((str) => str.slice(0, -1))
+        break
+      default:
+        setIsClicked(true)
+        setString((str) => str + getChar())
     }
   }
   const handleMouseUp = () => {
-    if (data.key === 'SHIFT') setIsShifted(false)
-    setIsClicked(false)
-  }
-  const handleKeyDown = (e) => {
-    // TODO: Prevent BACKSPACE navigation
-
-    if (isThisKey(e, data.key)) {
-      e.preventDefault()
-      handleMouseDown()
+    switch (data.key) {
+      case 'shift':
+        break
+      default:
+        setIsClicked(false)
     }
   }
-  const handleKeyUp = (e) => {
-    if (isThisKey(e, data.key)) {
-      handleMouseUp()
-    }
-  }
-
-  React.useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyUp)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('keyup', handleKeyUp)
-    }
-    /*eslint-disable*/
-  }, [])
-
-  if (data.key === 'SHIFT') {
+  if (data.key === 'shift') {
     return (
       <StyledPaper
         onMouseDown={handleMouseDown}
@@ -106,7 +116,7 @@ export const Key = ({ data, isShifted = false, setIsShifted, setString }) => {
         <ShiftIcon />
       </StyledPaper>
     )
-  } else if (data.key === 'BACKSPACE') {
+  } else if (data.key === 'backspace') {
     return (
       <StyledPaper
         clicked={isClicked}
@@ -116,7 +126,7 @@ export const Key = ({ data, isShifted = false, setIsShifted, setString }) => {
         <BackspaceIcon />
       </StyledPaper>
     )
-  } else if (data.key === 'SPACE') {
+  } else if (data.key === ' ') {
     return (
       <StyledPaper
         onMouseDown={handleMouseDown}
