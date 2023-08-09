@@ -162,6 +162,10 @@
   ],
   [
     {
+      "key": "control",
+      "char": "CTRL"
+    },
+    {
       "key": " ",
       "char": " ",
       "shift": " "

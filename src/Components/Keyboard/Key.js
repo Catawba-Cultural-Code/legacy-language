@@ -5,6 +5,7 @@ import { BackspaceIcon, ShiftIcon } from '../Surfaces/Icon'
 import { useState } from 'react'
 import media from 'css-in-js-media'
 const StyledPaper = styled(Paper)`
+  flex: ${({ flex = 1 }) => flex};
   padding: 5px 10px;
   background-color: ${({ theme, clicked = false }) =>
     clicked ? theme.light : theme.primary};
@@ -46,23 +47,37 @@ export const Key = ({
   isShifted = false,
   setIsShifted,
   setString,
+  isAlted,
+  setIsAlted,
 }) => {
   const [isClicked, setIsClicked] = useState(false)
-  // TODO: create alt button
-  // TODO: expand key function to include cases for when alt is working
   const getChar = () => {
+    if (isAlted && isShifted) {
+      return data.accentShift || data.accent || data.shift
+    }
     if (isShifted) {
       return data.shift
+    }
+    if (isAlted) {
+      return data.accent || data.char
     }
     return data.char
   }
   useEffect(() => {
-    if (data.key == 'shift') {
+    if (data.key === 'shift') {
       setIsClicked(isShifted)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShifted])
   useEffect(() => {
-    console.log(currentKey)
+    if (data.key === 'control') {
+      console.log('contorl?', isAlted)
+      setIsClicked(isAlted)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAlted])
+  useEffect(() => {
+    console.log('useEffect', currentKey)
     if (currentKey == null) {
       setIsClicked(false)
       return
@@ -82,12 +97,16 @@ export const Key = ({
       }
       return
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentKey])
   const handleMouseDown = () => {
     switch (data.key) {
       case 'shift':
         console.log(isShifted)
         setIsShifted((bool) => !bool)
+        break
+      case 'control':
+        setIsAlted((bool) => !bool)
         break
       case 'backspace':
         setIsClicked(true)
@@ -101,6 +120,8 @@ export const Key = ({
   const handleMouseUp = () => {
     switch (data.key) {
       case 'shift':
+        break
+      case 'control':
         break
       default:
         setIsClicked(false)
@@ -132,8 +153,19 @@ export const Key = ({
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         clicked={isClicked}
+        flex={12}
       >
         _________________________________
+      </StyledPaper>
+    )
+  } else if (data.key === 'control') {
+    return (
+      <StyledPaper
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        clicked={isClicked}
+      >
+        ctrl
       </StyledPaper>
     )
   } else {
@@ -143,9 +175,7 @@ export const Key = ({
         onMouseUp={handleMouseUp}
         clicked={isClicked}
       >
-        <KeyText>
-          {isShifted && data.shift != null ? data.shift : data.char}
-        </KeyText>
+        <KeyText>{getChar()}</KeyText>
       </StyledPaper>
     )
   }

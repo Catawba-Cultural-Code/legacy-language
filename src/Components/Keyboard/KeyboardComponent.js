@@ -20,9 +20,11 @@ const KeyboardGrid = styled.div`
 `
 
 const Row = styled.div`
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-auto-flow: column;
+  display: flex;
+  // grid-template-rows: 1fr;
+  // grid-auto-flow: column;
+  flex-direction: row;
+  justify-content: center;
   &:nth-child(1) {
   }
   &:nth-child(2) {
@@ -53,7 +55,7 @@ export const KeyboardComponent = (props) => {
       case 'shift':
         setIsShifted(true)
         break
-      case 'alt':
+      case 'control':
         setIsAlted(true)
         break
       default:
@@ -67,7 +69,7 @@ export const KeyboardComponent = (props) => {
       case 'shift':
         setIsShifted(false)
         break
-      case 'alt':
+      case 'control':
         setIsAlted(false)
         break
       default:
