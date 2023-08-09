@@ -118,7 +118,7 @@ const Header = () => {
       <TitleDiv>
 
       <Logo onClick={() => history.push('/')} src={logo} />
-      <HeaderTitle onClick={() => history.push('/')}>{'Catawba Languageeeee Project'.toUpperCase()}</HeaderTitle>
+      <HeaderTitle onClick={() => history.push('/')}>{'Catawba Language Project'.toUpperCase()}</HeaderTitle>
       </TitleDiv>
 
       <NavDiv showing={!hidden}>
