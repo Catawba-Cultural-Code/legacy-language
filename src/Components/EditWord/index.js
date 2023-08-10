@@ -77,8 +77,10 @@ const EditWord = () => {
     translations = [],
     onDelete,
     onSave,
+    recordings,
   } = useEdit()
   console.log(language_entry)
+  // console.log(recordings)
   // add _id
   // Shouldn't _id be handled by parent element???
   const showExtras = () => {
@@ -86,16 +88,16 @@ const EditWord = () => {
       tags.length > 0 && pronunciation.length > 0 && translations.length > 0
     )
   }
-  const showRequired = () => language_entry.length > 0
+  const showRequired = language_entry.length > 0
   return (
     <InputGrid>
       <LanguageEntry />
-      <AltSpellings show={showRequired()} />
-      <Pronunciation show={showRequired()} />
-      <TransInput show={showRequired()}>
+      <AltSpellings show={showRequired} />
+      <Pronunciation show={showRequired} />
+      <TransInput show={showRequired}>
         <MultiText property='translations' label='Translations' />
       </TransInput>
-      <TagInput show={showRequired()}>
+      <TagInput show={showRequired}>
         <MultiText property='tags' label='Tags' />
       </TagInput>
       <Images show={showExtras()} />

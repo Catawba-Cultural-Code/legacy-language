@@ -29,7 +29,7 @@ const LanguageEntry = () => {
   const history = useHistory()
   const [openModal, setOpenModal] = React.useState(false)
   const [tempString, setTempString] = React.useState(language_entry)
-  const [match, setMatch] = React.useState('')
+  const [match, setMatch] = React.useState([])
   const property = 'language_entry'
   useEffect(() => {
     setTempString(language_entry)
@@ -65,7 +65,13 @@ const LanguageEntry = () => {
   return (
     <>
       <WordInput>
-        <Grid item container alignItems='center' justify='center' spacing={1}>
+        <Grid
+          item
+          container
+          alignItems='center'
+          justifyContent='center'
+          spacing={1}
+        >
           <Grid item>
             <TextField
               label='Language Entry'

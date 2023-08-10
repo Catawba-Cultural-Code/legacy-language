@@ -3,14 +3,14 @@ import { isMobile } from 'react-device-detect'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import Page from 'Components/Page'
 import useAPI from 'utils/hooks/useAPI'
-import BatchUpload from './BatchUpload'
 import Export from './Export'
 import Landing from './Landing'
 import Login from './Login'
-import Requests from './Requests'
-import Signup from './Signup'
-import Users from './Users'
 import Words from './Words'
+// import Requests from './Requests'
+// import Signup from './Signup'
+// import Users from './Users'
+// import BatchUpload from './BatchUpload'
 // TODO: HIDE USER AND MESSAGES PATHWAY
 // TODO: FIX FILTERS
 // TODO: REDESIGN Word entry Page
@@ -37,22 +37,22 @@ export const AdminPanel = () => {
     <Landing>
       {loggedIn ? (
         <Switch>
-          <AdminRoute path={path + '/bulk-new'}>
+          {/* <AdminRoute path={path + '/bulk-new'}>
             <BatchUpload />
-          </AdminRoute>
+          </AdminRoute> */}
           <AdminRoute path={path + '/export'}>
             <Export />
           </AdminRoute>
-          <AdminRoute path={path + '/users/:_id?'}>
+          {/* <AdminRoute path={path + '/users/:_id?'}>
             <Users />
-          </AdminRoute>
-          <AdminRoute path={path + '/signup'}>
+          </AdminRoute> */}
+          {/* <AdminRoute path={path + '/signup'}>
             <Signup />
-          </AdminRoute>
+          </AdminRoute> */}
 
-          <Route path={path + '/requests'}>
+          {/* <Route path={path + '/requests'}>
             <Requests />
-          </Route>
+          </Route> */}
 
           <Route path={path + '/:_id?'}>
             <Words />

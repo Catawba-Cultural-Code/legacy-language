@@ -1,5 +1,6 @@
 import { Spinner } from 'Components'
 import EditWord from 'Components/EditWord'
+import blankState from 'Components/EditWord/blankState'
 import React, { useEffect } from 'react'
 import {
   Route,
@@ -69,7 +70,7 @@ const WordDetail = () => {
       <Switch>
         <Route path={path + '/new'}>
           <DetailGrid>
-            <EditWord onSave={onSave} />
+            <EditWord data={blankState} onSave={onSave} />
           </DetailGrid>
         </Route>
         <Route path={path + '/:_id'}>
@@ -79,7 +80,7 @@ const WordDetail = () => {
         </Route>
         <Route exact path={path + '/'}>
           <DetailGrid>
-            <EditWord onSave={onSave} />
+            <EditWord data={blankState} onSave={onSave} />
           </DetailGrid>
         </Route>
       </Switch>

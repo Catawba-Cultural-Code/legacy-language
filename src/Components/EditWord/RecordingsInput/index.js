@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Button, MicIcon, NoMicIcon, Paper, Player } from 'Components'
 import useEdit from '../useEdit'
-import { useRecorder } from './useRecorder'
+import useRecorder from './useRecorder'
 
 export const RecInput = styled.div`
   grid-area: r;
@@ -12,7 +12,7 @@ export const RecInput = styled.div`
 `
 const RecordingsGrid = styled(RecInput)`
   display: flex;
-  flex-direction: rows;
+  flex-direction: row;
   flex-wrap: wrap;
 `
 const AudioPaper = styled(Paper)`
@@ -39,51 +39,74 @@ const MicButton = styled(Button)`
 `
 const Recordings = ({ show }) => {
   const { recordings, replace } = useEdit()
+  const [loaded, setLoaded] = useState(false)
+  // const [recs, setRecs] = useState([])
+  // const [loaded, setLoaded] = useState(false)
   const property = 'recordings'
-  const update = (blobs) => {
-    replace(property, blobs)
-  }
-  const {
-    startRecord,
-    stopRecord,
+  // useEffect(() => {
+  //   console.log('recording input', recordings)
+  //   if (recordings !== undefined && !loaded) {
+  //     console.log("setting recordings")
+  //     setRecs(recordings)
+  //     setLoaded(true)
+  //   }
+  // }, [recordings])
+  // useEffect(() => {
 
-    isInit,
-    init,
-    removeRecording,
-    setBlobs,
-    isRecording,
-  } = useRecorder(recordings, update)
+  // }, [recs])
+
+  const removeRec = (i) => {
+    // setRecs((arr) => arr.toSpliced(i, 1))
+    replace(property, recordings.toSpliced(i, 1))
+  }
+
+  const {
+    permission,
+    recordingStatus,
+    startRecording,
+    stopRecording,
+    getMicrophonePermission,
+  } = useRecorder(({ base64 }) => {
+    // setRecs((arr) => [...arr, base64])
+    replace(property, [...recordings, base64])
+  })
   useEffect(() => {
-    setBlobs(recordings)
-    /*eslint-disable */
+    if (recordings !== undefined) {
+      console.log('not undefined')
+      setLoaded(true)
+    }
   }, [recordings])
   return (
     <RecordingsGrid show={show}>
-      {recordings &&
-        recordings.map((base64, i) => {
-          return (
-            <AudioPaper key={i} color='transparent'>
-              <Player base64={base64} />
-              <Button onClick={() => removeRecording(i)}>Delete</Button>
-            </AudioPaper>
-          )
-        })}
       <AudioPaper color='transparent'>
-        {!isInit ? (
-          <MicButton round={true} onClick={init} disabled={true}>
+        {!permission ? (
+          <MicButton
+            round={true}
+            onClick={getMicrophonePermission}
+            disabled={true}
+          >
             <NoMicIcon />
           </MicButton>
         ) : (
           <MicButton
             round={true}
-            onMouseDown={startRecord}
-            onMouseUp={stopRecord}
-            isRecording={isRecording}
+            onMouseDown={startRecording}
+            onMouseUp={stopRecording}
+            isRecording={recordingStatus === 'recording'}
           >
             <MicIcon />
           </MicButton>
         )}
       </AudioPaper>
+      {loaded &&
+        recordings.map((base64, i) => {
+          return (
+            <AudioPaper key={i} color='transparent'>
+              <Player base64={base64} />
+              <Button onClick={() => removeRec(i)}>Delete</Button>
+            </AudioPaper>
+          )
+        })}
     </RecordingsGrid>
   )
 }

@@ -61,9 +61,8 @@ export const EditProvider = ({
   return <Context.Provider value={api}>{children}</Context.Provider>
 }
 const useEdit = () => {
-  // this should be in a provider fn
-  // useEdit should be useContext(Context) and return all fn
   const api = useContext(Context)
+
   return api
 }
 export default useEdit

@@ -8,7 +8,6 @@ import GlobalTheme from './Components/GlobalTheme'
 import Layout from './Components/Layout'
 import Pages from './Pages'
 import { APIProvider } from './utils/hooks/useAPI'
-// TODO: Move app contents into ReactDOM.render
 
 const GlobalStyle = createGlobalStyle`
 html,

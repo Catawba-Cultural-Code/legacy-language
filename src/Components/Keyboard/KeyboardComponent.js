@@ -48,7 +48,6 @@ export const KeyboardComponent = (props) => {
   const [isAlted, setIsAlted] = useState(false)
   const [currentKey, setCurrentKey] = useState(null)
   const handleKeyDown = (e) => {
-    // TODO: Prevent BACKSPACE navigation
     e.preventDefault()
     console.log(`key down ${e.key}`)
     switch (e.key.toLowerCase()) {
