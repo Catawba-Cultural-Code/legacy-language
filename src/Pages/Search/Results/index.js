@@ -79,6 +79,7 @@ const Results = ({ loading, results, term }) => {
   } else if (results !== null) {
     return (
       <ResultsDiv>
+        <p>{results.length} Results</p>
         {results.map(({ item }, i) => {
           const entry = item
           return (
@@ -113,7 +114,7 @@ const Results = ({ loading, results, term }) => {
             </Result>
           )
         })}
-        <Request term={term} />
+        <Request />
       </ResultsDiv>
     )
   } else {

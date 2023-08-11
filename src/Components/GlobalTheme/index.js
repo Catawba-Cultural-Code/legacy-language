@@ -1,7 +1,7 @@
 import React from 'react'
 import Theme from './context'
 import StyledProvider from './StyledProvider'
-const defaultTheme = {
+export const defaultTheme = {
   primary: '#fbc10b',
   secondary: '#0bbcee',
   green: '#41b2a2',

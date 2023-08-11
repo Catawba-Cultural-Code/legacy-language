@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Feedback, Page, Text } from '../../Components'
+import { Page, Text } from '../../Components'
+
+import Request from 'Components/Request'
 const Paragraph = styled(Text)`
   place-self: stretch;
   text-align: left;
@@ -31,10 +33,10 @@ const About = () => {
         </Paragraph>
 
         <Paragraph>
-          The code is in turn made freely available at
+          The code is in turn made freely available at{' '}
           <a href='http://git.delesslin.com/language-project'>Github</a>
         </Paragraph>
-        <Feedback />
+        <Request />
       </AboutGrid>
     </StyledPage>
   )
