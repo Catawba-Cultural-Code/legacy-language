@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min'
 import useAPI from 'utils/hooks/useAPI'
 import { defaultTheme } from 'Components/GlobalTheme'
+import blankState from 'Components/EditWord/blankState'
 
 const Alert = ({ onCancel, onConfirm, show = false }) => {
   const [opacity, setOpacity] = useState(0)
@@ -98,26 +99,20 @@ const GoBack = () => {
     </div>
   )
 }
-const Editor = () => {
+const New = () => {
   const { words, isLoading, updateWord, createWord } = useAPI()
-  const [word, setWord] = useState(null)
+
   const params = useParams()
-  useEffect(() => {
-    setWord(words.find((entry) => entry._id === params._id))
-  }, [])
-  return word === null ? (
-    <div>
-      <h1>EDITOR</h1>
-    </div>
-  ) : (
+
+  return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <GoBack />
         <h1>EDITOR</h1>
       </div>
-      <EditWordComponent data={word} />
+      <EditWordComponent data={blankState} />
     </div>
   )
 }
 
-export default Editor
+export default New

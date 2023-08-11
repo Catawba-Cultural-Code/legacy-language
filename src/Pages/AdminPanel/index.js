@@ -8,6 +8,7 @@ import Landing from './Landing'
 import Login from './Login'
 import Words from './Words'
 import Editor from './Editor'
+import New from './New'
 // TODO: Remove Alternative Spellings from EditWord
 // TODO: Handle Nav on SUBMIT on EditWord
 // TODO: Handle New Word page
@@ -56,7 +57,10 @@ export const AdminPanel = () => {
           <Route path={path + '/:_id'}>
             <Editor />
           </Route>
-          <Route exact path={path}>
+          <Route path={path + '/new'}>
+            <New />
+          </Route>
+          <Route path={path}>
             <Words />
           </Route>
         </Switch>

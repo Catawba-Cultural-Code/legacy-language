@@ -9,6 +9,7 @@ import {
   Text,
   VisibleIcon,
 } from 'Components'
+import { BiPlus } from 'react-icons/bi'
 import { GrEdit } from 'react-icons/gr'
 import { defaultTheme } from 'Components/GlobalTheme'
 import { useState } from 'react'
@@ -36,7 +37,7 @@ const DetailChip = ({ children, active }) => {
 const Word = ({ word }) => {
   const history = useHistory()
   const [active, setActive] = useState(false)
-  const toggleActive = () => setActive((bool) => !bool)
+
   return (
     <div
       onMouseDown={() => setActive(false)}
@@ -103,12 +104,47 @@ const Word = ({ word }) => {
     </div>
   )
 }
+const NewWord = () => {
+  const [active, setActive] = useState(false)
+  const history = useHistory()
+  return (
+    <div
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      onMouseDown={() => setActive(false)}
+      onMouseUp={() => history.push('/admin/new')}
+      style={{
+        width: 125,
+        height: 175,
+        backgroundColor: defaultTheme.primary,
+        padding: 20,
+        margin: 10,
+        boxShadow: `1px 1px 3px #333333${active ? 99 : 70}`,
+        borderRadius: 10,
+        position: 'relative',
+        transition: 'all 0.2s ease',
+        cursor: 'pointer',
+        display: 'grid',
+        placeItems: 'center',
+      }}
+    >
+      <BiPlus
+        style={{
+          fontSize: active ? 45 : 35,
+          color: 'white',
+          transition: 'all 0.2s ease',
+        }}
+      />
+    </div>
+  )
+}
 const Words = () => {
   const { words, isLoading, updateWord, createWord } = useAPI()
   return (
     <div>
       <h2>Words</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <NewWord />
         {!isLoading && words.map((word) => <Word word={word} />)}
       </div>
     </div>
