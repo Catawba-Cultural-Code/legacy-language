@@ -26,6 +26,12 @@ const wordSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    index: true,
+    required: true,
+    auto: true,
+  },
 })
 
 //   const Word = mongoose.model("Word", wordSchema);

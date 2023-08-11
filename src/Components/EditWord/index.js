@@ -1,19 +1,21 @@
-// TODO: migrate to Pages/admin/words
+// TODO: style
+// TODO: handle delete
+// TODO: handle save
 
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Button } from '../Surfaces'
-import AltSpellings from './AltSpellings'
 
 import Images from './Images'
-import Pronunciation from './Pronunciation'
 import LanguageEntry from './LanguageEntry'
 import MultiText from './MultiText'
-import Notes from './Notes'
 import RecordingsInput from './RecordingsInput'
-import useEdit from './useEdit'
 import VisibleInput from './VisibleInput'
 import { EditProvider } from './useEdit'
+import useAPI from 'utils/hooks/useAPI'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import blankState from './blankState'
+import { defaultTheme } from 'Components/GlobalTheme'
 
 const highlight = '#eefafc'
 const secondlight = '#FFFED6'
@@ -68,51 +70,138 @@ const InputButton = styled(Button)`
   width: 80%;
   height: 10%;
   padding: 10px;
+  ${(disabled) => {}}
 `
-const EditWord = () => {
-  const {
-    language_entry = '',
-    tags = [],
-    pronunciation = [],
-    translations = [],
-    onDelete,
-    onSave,
-    recordings,
-  } = useEdit()
-  console.log(language_entry)
-  // console.log(recordings)
-  // add _id
-  // Shouldn't _id be handled by parent element???
-  const showExtras = () => {
-    return (
-      tags.length > 0 && pronunciation.length > 0 && translations.length > 0
-    )
+const EditWord = ({ isNew, data = blankState }) => {
+  const { words, isLoading, updateWord, createWord } = useAPI()
+
+  const history = useHistory()
+  const [state, setState] = useState(data)
+  const updateState = (property, value) => {
+    setState((obj) => {
+      return {
+        ...obj,
+        [property]: value,
+      }
+    })
   }
-  const showRequired = language_entry.length > 0
+  const updateArrayProperty = (property, value) => {
+    setState((obj) => {
+      return {
+        ...obj,
+        [property]: [...obj[property], value],
+      }
+    })
+  }
+  const removeEntryFromArrayProperty = (property, index) => {
+    setState((obj) => {
+      return {
+        ...obj,
+        [property]: obj[property].toSpliced(index, 1),
+      }
+    })
+  }
+  const onSave = () => {
+    console.log('SAVE', state._id)
+    if (state._id === undefined) {
+      console.log('IS NEW')
+      createWord(state)
+    } else {
+      updateWord(state._id, state)
+    }
+    history.push('/admin')
+  }
+  const onDelete = () => {
+    console.log('DELETE')
+  }
+  const isComplete =
+    state.language_entry.length > 0 && state.translations.length > 0
   return (
-    <InputGrid>
-      <LanguageEntry />
-      <AltSpellings show={showRequired} />
-      <Pronunciation show={showRequired} />
-      <TransInput show={showRequired}>
-        <MultiText property='translations' label='Translations' />
-      </TransInput>
-      <TagInput show={showRequired}>
-        <MultiText property='tags' label='Tags' />
-      </TagInput>
-      <Images show={showExtras()} />
-      <RecordingsInput show={showExtras()} />
-      <Notes show={showExtras()} />
-      <VisibleInput show={showExtras()} />
-      <ButtonGrid show={showExtras()}>
-        <InputButton color='secondary' onClick={onSave}>
-          SUBMIT
-        </InputButton>
-        <InputButton variant='contained' color='red' onClick={onDelete}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <LanguageEntry
+        entry={state.language_entry}
+        updateEntry={(str) => updateState('language_entry', str)}
+      />
+      <MultiText
+        property='pronunciation'
+        data={state.pronunciation}
+        addEntry={(text) => updateArrayProperty('pronunciation', text)}
+        removeEntry={(i) => removeEntryFromArrayProperty('pronunciation', i)}
+      >
+        Pronunciation
+      </MultiText>
+      <MultiText
+        data={state.translations}
+        addEntry={(text) => updateArrayProperty('translations', text)}
+        removeEntry={(i) => removeEntryFromArrayProperty('translations', i)}
+      >
+        Translations
+      </MultiText>
+      <MultiText
+        data={state.tags}
+        addEntry={(tag) => updateArrayProperty('tags', tag)}
+        removeEntry={(i) => removeEntryFromArrayProperty('tags', i)}
+      >
+        Tags
+      </MultiText>
+      <MultiText
+        data={state.notes}
+        addEntry={(note) => updateArrayProperty('notes', note)}
+        removeEntry={(i) => removeEntryFromArrayProperty('notes', i)}
+      >
+        Notes
+      </MultiText>
+      <RecordingsInput
+        data={state.recordings}
+        addRecording={(rec) => updateArrayProperty('recordings', rec)}
+        removeRecording={(i) => removeEntryFromArrayProperty('recordings', i)}
+      />
+      <Images
+        data={state.images}
+        addImage={(arr) => {
+          console.log(arr)
+          setState((obj) => {
+            return {
+              ...obj,
+              images: [...obj['images'], ...arr],
+            }
+          })
+        }}
+        removeImage={(i) => removeEntryFromArrayProperty('images', i)}
+      />
+      <VisibleInput
+        visible={state.public}
+        toggleVisible={() =>
+          setState((obj) => {
+            return {
+              ...obj,
+              public: !obj.public,
+            }
+          })
+        }
+      />
+
+      <div
+        style={{ display: 'flex', justifyContent: 'space-around', padding: 50 }}
+      >
+        <button
+          style={{
+            backgroundColor: isComplete ? defaultTheme.green : '#bbb',
+            padding: '10px 25px',
+          }}
+          onClick={onSave}
+          disabled={!isComplete}
+        >
+          SAVE
+        </button>
+        <button
+          style={{ backgroundColor: defaultTheme.red, padding: '10px 25px' }}
+          onClick={onDelete}
+        >
           DELETE
-        </InputButton>
-      </ButtonGrid>
-    </InputGrid>
+        </button>
+      </div>
+    </div>
   )
 }
 

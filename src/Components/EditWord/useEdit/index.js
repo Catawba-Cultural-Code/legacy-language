@@ -7,7 +7,7 @@ import reducer, { ADD_MULTI, INIT, REMOVE_MULTI, REPLACE } from './reducer'
 
 export const EditProvider = ({
   children,
-  data = blankState,
+  data,
   onSave = () => console.log('no save fn'),
 }) => {
   const [state, dispatch] = useReducer(reducer, data)
@@ -33,6 +33,7 @@ export const EditProvider = ({
     })
   }
   const addMulti = (property, value) => {
+    console.log(property, value)
     dispatch({
       type: ADD_MULTI,
       property,

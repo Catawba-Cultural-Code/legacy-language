@@ -115,7 +115,7 @@ const Editor = () => {
         <GoBack />
         <h1>EDITOR</h1>
       </div>
-      <EditWordComponent data={word} />
+      <EditWordComponent data={word} onSave={updateWord} />
     </div>
   )
 }

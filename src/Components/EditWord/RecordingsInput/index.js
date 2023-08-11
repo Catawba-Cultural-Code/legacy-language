@@ -37,7 +37,7 @@ const MicButton = styled(Button)`
     }
   }};
 `
-const Recordings = ({ show }) => {
+const Recordings = ({ data, addRecording, removeRecording, show = true }) => {
   const { recordings, replace } = useEdit()
   const [loaded, setLoaded] = useState(false)
   // const [recs, setRecs] = useState([])
@@ -57,7 +57,7 @@ const Recordings = ({ show }) => {
 
   const removeRec = (i) => {
     // setRecs((arr) => arr.toSpliced(i, 1))
-    replace(property, recordings.toSpliced(i, 1))
+    removeRecording(i)
   }
 
   const {
@@ -68,10 +68,10 @@ const Recordings = ({ show }) => {
     getMicrophonePermission,
   } = useRecorder(({ base64 }) => {
     // setRecs((arr) => [...arr, base64])
-    replace(property, [...recordings, base64])
+    addRecording(base64)
   })
   useEffect(() => {
-    if (recordings !== undefined) {
+    if (data !== undefined) {
       console.log('not undefined')
       setLoaded(true)
     }
@@ -99,7 +99,7 @@ const Recordings = ({ show }) => {
         )}
       </AudioPaper>
       {loaded &&
-        recordings.map((base64, i) => {
+        data.map((base64, i) => {
           return (
             <AudioPaper key={i} color='transparent'>
               <Player base64={base64} />

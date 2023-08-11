@@ -39,16 +39,16 @@ export const CardGrid = styled.div`
   }
 `
 
-const Images = ({ show }) => {
-  const { images, replace, removeMulti } = useEdit()
+const Images = ({ data, addImage, removeImage, show = true }) => {
+  // const { images, replace, removeMulti } = useEdit()
   const [openModal, setOpenModal] = React.useState(false)
   const property = 'images'
-  const remove = (index) => {
-    removeMulti(property, index)
-  }
-  const setImages = (value) => {
-    replace(property, value)
-  }
+  // const remove = (index) => {
+  //   removeMulti(property, index)
+  // }
+  // const setImages = (value) => {
+  //   replace(property, value)
+  // }
   return (
     <>
       <ImgInput show={show}>
@@ -59,10 +59,14 @@ const Images = ({ show }) => {
         </div>
         <div>
           <CardGrid columns={3}>
-            {images &&
-              images.map((img, i) => {
+            {data &&
+              data.map((img, i) => {
                 return (
-                  <SelectedImage key={i} src={img} remove={() => remove(i)} />
+                  <SelectedImage
+                    key={i}
+                    src={img}
+                    remove={() => removeImage(i)}
+                  />
                 )
               })}
           </CardGrid>
@@ -70,9 +74,9 @@ const Images = ({ show }) => {
       </ImgInput>
       <ImageModal
         open={openModal}
-        save={setImages}
+        save={(arr) => addImage(arr)}
         close={() => setOpenModal(false)}
-        currentImages={images}
+        currentImages={data}
       />
     </>
   )

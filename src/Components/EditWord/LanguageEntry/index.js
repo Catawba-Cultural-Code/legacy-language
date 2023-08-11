@@ -23,44 +23,19 @@ const ModalGrid = styled.div`
   grid-template-rows: auto auto auto auto;
   place-items: stretch;
 `
-const LanguageEntry = () => {
-  const { language_entry = '', replace } = useEdit()
+const LanguageEntry = ({ entry, updateEntry }) => {
   const { words } = useAPI()
   const history = useHistory()
   const [openModal, setOpenModal] = React.useState(false)
-  const [tempString, setTempString] = React.useState(language_entry)
-  const [match, setMatch] = React.useState([])
-  const property = 'language_entry'
-  useEffect(() => {
-    setTempString(language_entry)
-  }, [language_entry])
-  const handleFocus = () => {}
-  const setTerm = (value) => {
-    replace(property, value)
-  }
-  const handleSave = () => {
-    setTerm(tempString)
-    setOpenModal(false)
-  }
-  const handleCheck = () => {
-    const match = words.reduce((acc, { language_entry, _id }) => {
-      if (language_entry === tempString) {
-        return _id
-      } else {
-        return acc
-      }
-    }, '')
-
-    if (match.length > 0) {
-      setMatch(match)
-    } else {
-      handleSave()
-    }
-  }
+  const [tempString, setTempString] = React.useState(entry)
   const closeModal = () => setOpenModal(false)
-  const handleEdit = () => {
-    history.push(`/admin/${match}`)
-    setOpenModal(false)
+  // const handleEdit = () => {
+  //   history.push(`/admin/${match}`)
+  //   setOpenModal(false)
+  // }
+  const handleSave = () => {
+    updateEntry(tempString)
+    closeModal()
   }
   return (
     <>
@@ -78,8 +53,7 @@ const LanguageEntry = () => {
               variant='filled'
               disabled
               required
-              value={language_entry}
-              onFocus={handleFocus}
+              value={entry}
             />
           </Grid>
           <Grid item>
@@ -89,16 +63,15 @@ const LanguageEntry = () => {
           </Grid>
         </Grid>
       </WordInput>
-
       <Modal open={openModal} handleClose={closeModal}>
         <ModalGrid>
           <input type='text' value={tempString} readOnly={true} />
           <KeyboardComponent setText={setTempString} />
-          {match.length > 0 ? (
+          <Button onClick={handleSave}>SAVE</Button>
+          {/* {match.length > 0 ? (
             <Button onClick={handleEdit}>EDIT </Button>
           ) : (
-            <Button onClick={handleCheck}>SAVE</Button>
-          )}
+          )} */}
           <Button onClick={closeModal}>NEVERMIND</Button>
         </ModalGrid>
       </Modal>

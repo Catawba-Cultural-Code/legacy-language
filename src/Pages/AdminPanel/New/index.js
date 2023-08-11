@@ -100,17 +100,13 @@ const GoBack = () => {
   )
 }
 const New = () => {
-  const { words, isLoading, updateWord, createWord } = useAPI()
-
-  const params = useParams()
-
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <GoBack />
         <h1>EDITOR</h1>
       </div>
-      <EditWordComponent data={blankState} />
+      <EditWordComponent isNew={true} />
     </div>
   )
 }

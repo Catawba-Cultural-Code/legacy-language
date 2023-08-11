@@ -12,17 +12,11 @@ const StyledGrid = styled.div`
   transition: all 1s;
   opacity: ${({ show = true }) => (show ? `1` : `0`)};
 `
-const VisibleInput = ({ show }) => {
-  const { public: isPublic = false, replace } = useEdit()
-  const property = 'public'
-  const handleSwitch = (e) => {
-    const { checked: value } = e.target
-    replace(property, value)
-  }
+const VisibleInput = ({ visible, toggleVisible }) => {
   return (
-    <StyledGrid show={show}>
-      <h5>{isPublic ? 'PUBLIC' : 'hidden'}</h5>
-      <Switch name='show' checked={isPublic} onChange={handleSwitch} />
+    <StyledGrid show={true}>
+      <h5>{visible ? 'PUBLIC' : 'hidden'}</h5>
+      <Switch name='show' checked={visible} onChange={toggleVisible} />
     </StyledGrid>
   )
 }

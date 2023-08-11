@@ -18,6 +18,7 @@ const wordModel = require('../../models/word.js')
 wordsRouter.post('/', async (req, res) => {
   //TODO: Expand Error codes (Specifically error code for duplicate values)
 
+  console.log('POST request', req.body)
   if (req.user.roles.includes('editor')) {
     const Word = new wordModel(req.body)
 

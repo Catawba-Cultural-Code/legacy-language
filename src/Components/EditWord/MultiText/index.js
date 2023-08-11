@@ -25,57 +25,64 @@ const AddButton = styled(Button)`
       : ``
   }}
 `
-const useMulti = (property) => {
-  const { state, addMulti, removeMulti } = useEdit()
+// const useMulti = (property) => {
+//   const { state, addMulti, removeMulti } = useEdit()
 
-  const [current, setCurrent] = useState('')
-  const add = () => {
-    if (current.length > 0) {
-      addMulti(property, current.trim())
-      setCurrent('')
-    }
-  }
-  const remove = (index) => {
-    removeMulti(property, index)
-  }
+//   const [current, setCurrent] = useState('')
+//   const add = (entry) => {
+//     if (entry.length > 0) {
+//       addMulti(property, [entry.trim()])
+//       setCurrent('')
+//     }
+//   }
+//   const remove = (index) => {
+//     removeMulti(property, index)
+//   }
+//   const handleTextChange = (e) => {
+//     setCurrent(e.currentTarget.value)
+//   }
+//   return {
+//     current,
+//     stringArray: state && state[property] ? state[property] : [],
+//     add,
+//     remove,
+//     handleTextChange,
+//   }
+// }
+const MultiText = ({ data, children, addEntry, removeEntry }) => {
+  const [text, setText] = useState('')
+  // const { current, stringArray, add, remove } = useMulti(property)
   const handleTextChange = (e) => {
-    setCurrent(e.currentTarget.value)
+    console.log(e.target.value)
+    setText(e.target.value)
   }
-  return {
-    current,
-    stringArray: state && state[property] ? state[property] : [],
-    add,
-    remove,
-    handleTextChange,
+  const handleAdd = () => {
+    addEntry(text)
+    setText('')
   }
-}
-const MultiText = ({ property, label = '' }) => {
-  const { current, stringArray, handleTextChange, add, remove } = useMulti(
-    property
-  )
 
   return (
     <MultiInput>
-      <Grid item container spacing={1} justify='center' alignItems='center'>
+      <Grid
+        item
+        container
+        spacing={1}
+        justifyContent='center'
+        alignItems='center'
+      >
         <Grid item>
           <TextField
-            value={current}
+            value={text}
             onChange={handleTextChange}
-            label={label}
+            label={children}
           />
         </Grid>
         <Grid item>
           <AddButton
-            disabled={current.length < 1}
+            disabled={text.length < 1}
             color='secondary'
             round='true'
-            onClick={
-              current.length < 1
-                ? () => {
-                    console.log('nothing to add')
-                  }
-                : () => add(current.trim())
-            }
+            onClick={() => handleAdd(text.trim())}
             size={2.5}
           >
             <AddIcon />
@@ -83,10 +90,14 @@ const MultiText = ({ property, label = '' }) => {
         </Grid>
       </Grid>
       <Grid item container spacing={1}>
-        {stringArray.map((entry, i) => {
+        {data.map((entry, i) => {
           return (
             <Grid item key={i}>
-              <Chip color='primary' onDelete={() => remove(i)} label={entry} />
+              <Chip
+                color='primary'
+                onDelete={() => removeEntry(i)}
+                label={entry}
+              />
             </Grid>
           )
         })}
