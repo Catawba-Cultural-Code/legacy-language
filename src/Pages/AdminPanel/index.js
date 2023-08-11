@@ -7,14 +7,13 @@ import Export from './Export'
 import Landing from './Landing'
 import Login from './Login'
 import Words from './Words'
-// import Requests from './Requests'
-// import Signup from './Signup'
-// import Users from './Users'
-// import BatchUpload from './BatchUpload'
-// TODO: HIDE USER AND MESSAGES PATHWAY
-// TODO: FIX FILTERS
-// TODO: REDESIGN Word entry Page
-// TODO: fix recording glitches
+import Editor from './Editor'
+// TODO: Remove Alternative Spellings from EditWord
+// TODO: Handle Nav on SUBMIT on EditWord
+// TODO: Handle New Word page
+// TODO: Handle Search feature
+// TODO: Handle filters (hidden/visible, # of recordings, # of images, # of tags)
+// TODO: handle image upload????
 const AdminRoute = ({ path, children }) => {
   const { roles } = useAPI()
   return (
@@ -54,7 +53,10 @@ export const AdminPanel = () => {
             <Requests />
           </Route> */}
 
-          <Route path={path + '/:_id?'}>
+          <Route path={path + '/:_id'}>
+            <Editor />
+          </Route>
+          <Route exact path={path}>
             <Words />
           </Route>
         </Switch>

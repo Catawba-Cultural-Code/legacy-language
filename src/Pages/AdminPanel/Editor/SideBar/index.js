@@ -11,7 +11,7 @@ import {
   Text,
   VisibleIcon,
 } from 'Components'
-import useFilters from '../useFilters'
+import useFilters from '../../Words/useFilters'
 import Filters from './Filters'
 const ScrollGrid = styled.div`
   max-height: 60vh;
