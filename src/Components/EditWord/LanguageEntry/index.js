@@ -10,10 +10,10 @@ import useEdit from '../useEdit'
 
 const trilight = '#FFEBF1'
 const WordInput = styled.div`
-  grid-area: word;
   display: grid;
   place-items: center;
   background-color: ${trilight};
+  padding: 30px;
 `
 const ModalGrid = styled.div`
   display: grid;

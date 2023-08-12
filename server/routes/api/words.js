@@ -18,7 +18,7 @@ const wordModel = require('../../models/word.js')
 wordsRouter.post('/', async (req, res) => {
   //TODO: Expand Error codes (Specifically error code for duplicate values)
 
-  console.log('POST request', req.body)
+  console.log('POST/CREATE request', req.body)
   if (req.user.roles.includes('editor')) {
     const Word = new wordModel(req.body)
 
@@ -56,6 +56,7 @@ wordsRouter.get('/', async (req, res) => {
 // UPDATE
 // ==================
 wordsRouter.patch('/:_id', async (req, res) => {
+  console.log('PATCH/UPDATE request', req.body)
   if (req.user.roles.includes('editor')) {
     try {
       const Word = await wordModel.findOneAndUpdate(
@@ -76,6 +77,7 @@ wordsRouter.patch('/:_id', async (req, res) => {
 // DELETE
 // =================
 wordsRouter.delete('/:_id', async (req, res) => {
+  console.log('DELETE request', req.body)
   if (req.user.roles.includes('editor')) {
     try {
       await wordModel.findOneAndDelete({ _id: req.params._id })

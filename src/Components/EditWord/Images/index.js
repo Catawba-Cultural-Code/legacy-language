@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core'
 import useEdit from 'Components/EditWord/useEdit'
 import media from 'css-in-js-media'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ImageModal from './ImageModal'
 import SelectedImage from './SelectedImage'
@@ -14,6 +14,8 @@ const ImgInput = styled.div`
   background-color: ${secondlight};
   transition: all 1s;
   opacity: ${({ show = true }) => (show ? `1` : `0`)};
+  min-height: 150px;
+  padding: 20px;
 `
 const columns = (x, max = 10) => {
   let cols = x < max ? x : max
@@ -38,7 +40,36 @@ export const CardGrid = styled.div`
     }
   }
 `
-
+const ImageCard = ({ onClick, src }) => {
+  const [active, setActive] = useState(false)
+  return (
+    <div
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      style={{
+        height: 150,
+        width: 150,
+        backgroundImage: `url(${src})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        display: 'grid',
+        placeItems: 'center',
+      }}
+    >
+      <button
+        style={{
+          display: active ? 'block' : 'none',
+          opacity: active ? 1 : 0,
+          transition: 'all 0.2s ease',
+          cursor: 'pointer',
+        }}
+        onClick={onClick}
+      >
+        DELETE
+      </button>
+    </div>
+  )
+}
 const Images = ({ data, addImage, removeImage, show = true }) => {
   // const { images, replace, removeMulti } = useEdit()
   const [openModal, setOpenModal] = React.useState(false)
@@ -57,16 +88,12 @@ const Images = ({ data, addImage, removeImage, show = true }) => {
             Add images
           </Button>
         </div>
-        <div>
+        <div style={{ marginTop: 25 }}>
           <CardGrid columns={3}>
             {data &&
               data.map((img, i) => {
                 return (
-                  <SelectedImage
-                    key={i}
-                    src={img}
-                    remove={() => removeImage(i)}
-                  />
+                  <ImageCard key={i} src={img} onClick={() => removeImage(i)} />
                 )
               })}
           </CardGrid>

@@ -15,10 +15,10 @@ const useSearch = () => {
   const { words, isLoading } = useAPI()
   const [results, setResults] = React.useState(null)
   const [isSearching, setIsSearching] = React.useState(false)
-  const search = (term) => {
+  const search = (term, list = words) => {
     setIsSearching(true)
 
-    findMatches(term, words).then((results) => {
+    findMatches(term, list).then((results) => {
       setResults(results)
       setIsSearching(false)
     })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useAPI from 'utils/hooks/useAPI'
 import {
   Button,
@@ -14,6 +14,8 @@ import { GrEdit } from 'react-icons/gr'
 import { defaultTheme } from 'Components/GlobalTheme'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import Fuse from 'fuse.js'
+import FILTERS from './FILTERS'
 const DetailChip = ({ children, active }) => {
   return (
     <div
@@ -138,14 +140,88 @@ const NewWord = () => {
     </div>
   )
 }
+
 const Words = () => {
+  // TODO: search
+
   const { words, isLoading, updateWord, createWord } = useAPI()
+  const [filterIndex, setFilterIndex] = useState(0)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [list, setList] = useState(words)
+  const fuse = new Fuse(words, {
+    keys: ['language_entry', 'notes', 'tags', 'translations'],
+    findAllMatches: true,
+    threshold: 0.3,
+  })
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      const results = fuse.search(searchTerm).map((result) => result.item)
+      setList(results)
+    }
+  }, [searchTerm])
+  const handleClear = () => {
+    setSearchTerm('')
+    setList(words)
+  }
   return (
     <div>
-      <h2>Words</h2>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+        }}
+      >
+        <h2 style={{ padding: 20, paddingRight: 40, fontSize: 30 }}>Words</h2>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+
+            width: '100%',
+          }}
+        >
+          {FILTERS.map((filter, i) => {
+            return (
+              <div
+                key={i}
+                style={{
+                  border: '1px solid black',
+                  display: 'grid',
+                  placeItems: 'center',
+                  padding: '10px 20px',
+                  height: 'auto',
+                  borderRadius: 20,
+                  cursor: 'pointer',
+                  backgroundColor:
+                    filterIndex === i ? defaultTheme.green : 'white',
+                }}
+                onClick={() => setFilterIndex(i)}
+              >
+                {filter.name}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <input
+          type='text'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ border: 'none', borderBottom: '1px solid black' }}
+        />
+        <button onClick={handleClear} disabled={searchTerm.length < 1}>
+          CLEAR
+        </button>
+      </div>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <NewWord />
-        {!isLoading && words.map((word) => <Word word={word} />)}
+        {!isLoading &&
+          FILTERS[filterIndex]
+            .fn(list)
+            .map((word, i) => <Word key={i} word={word} />)}
       </div>
     </div>
   )
